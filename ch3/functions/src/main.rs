@@ -1,13 +1,13 @@
 fn main() {
     // Difference between statements and expressions in Rust:
-    // Statements are instructions that perform some action and do not return 
-    // a value. Expressions evaluate to a resulting value. 
+    // Statements are instructions that perform some action and do not return
+    // a value. Expressions evaluate to a resulting value.
 
     // Making a function call is an expression; a numeric literal is an
-    // expression; {} is an expression.
+    // expression; { ... } is an expression.
     let y = {
         let x = 3;
-        x + 1 
+        x + 1
         // Expressions don't include ending semicolons. Adding a semicolon
         // to the end of an expression turns it into a statement.
     };
@@ -30,9 +30,9 @@ fn main() {
     };
     println!("The result is {}", result);
 
-    // for loop 
+    // for loop
     let a = [10, 20, 30, 40, 50];
-    for element in a.iter() {
+    for element in a {
         println!("the value is: {}", element);
     }
 
@@ -50,9 +50,9 @@ fn return_five() -> i32 {
     5
 }
 
-fn fib(n: i32) -> i32{
+fn fib(n: i32) -> i32 {
     if n <= 1 {
-        return 1;
+        return n;
     }
-    fib(n-1) + fib(n-2)
+    fib(n - 1) + fib(n - 2)
 }

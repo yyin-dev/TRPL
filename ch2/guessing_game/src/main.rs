@@ -41,6 +41,7 @@ fn main() {
 
         println!("You guessed: {}", guess);
 
+        // Equivalent: u32::cmp(&guess, &secret_number)
         match guess.cmp(&secret_number) {
             // A match expression is made up of arms. An arms consists of a pattern
             // and the code that should be run if the pattern is matched.

@@ -7,40 +7,30 @@ fn main() {
 
     // Pass by mutable reference
     mut_ref();
-    // Restriction: you can have only one mutable reference to a particular 
+    // Restriction: you can have only one mutable reference to a particular
     // piece of data in a particular scope.
-    // This allows Rust prevent data race at compile time. Example:
-    {
-        let mut option = Some(5);
-        let option_reference = &mut option;
-        let mut backup = 0;
-        let reference = match option_reference { // reference is a mutable ref
-            &mut Some(ref mut n) => n,
-            _ => &mut backup,
-        };
-        /* if the next line was allowed, what would be the result of the line after that? */
-        // *option_reference = None;
-        *reference = 10; // reference assumes it's a valid reference, but actually it's not
-    }
-    // In simple word, one mutable reference might invalidate the other.
-    // 
-    // Similarly, mutable refernece cannot exist with immutable reference in 
-    // the same scope. Note that a reference’s scope starts from where it is 
+    // This allows Rust prevent data race at compile time. 
+
+    // Similarly, mutable refernece cannot exist with immutable reference in
+    // the same scope. Note that a reference’s scope starts from where it is
     // introduced and continues through the last time that reference is USED.
     // This is ok:
     let mut s = String::from("hello");
 
-    let r1 = &s; // no problem
-    let r2 = &s; // no problem
+    let r1 = &s; // ok
+    let r2 = &s; // ok
     println!("{} and {}", r1, r2); // r1 and r2 are no longer used after this point
 
-    let r3 = &mut s; // no problem
-    println!("{}", r3);
+    let r3 = &mut s; // ok
+    println!("{}", r3); // ok
+
+    let r4 = &s; // ok
+    // println!("{}, {}", r3, r4); // r3 and r4 overlaps. NOT OK!
 
     // Rust prevents dangling reference at compile time.
-    
+
     // Reference rules:
-    // 1. At any given time, you can have either one mutable reference or any 
+    // 1. At any given time, you can have either one mutable reference or any
     // number of immutable references.
     // 2. References must always be valid.
 }
@@ -59,7 +49,8 @@ fn calculate_length(s: &String) -> usize {
     // s comes into scope
     s.len()
 
-    // s gets dropped
+    // s goes out of scope. Because it does not have ownership of what it
+    // refers to, it is not dropped
 }
 
 fn mut_ref() {

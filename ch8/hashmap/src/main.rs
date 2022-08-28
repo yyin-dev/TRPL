@@ -12,7 +12,7 @@ fn main() {
     // HashMap annotation is needed as it's possible to `collect` into many
     // different data structures. However, Rust can infer about the key type
     // and value type. So you can just write _.
-    let mut scores: HashMap<_, _> = 
+    let scores: HashMap<_, _> = 
         teams.into_iter().zip(initial_scores.into_iter()).collect();
 
     // Hashmap and ownership

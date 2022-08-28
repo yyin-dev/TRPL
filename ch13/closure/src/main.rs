@@ -1,3 +1,6 @@
+// Rust’s closures are anonymous functions you can save in a variable or pass as arguments to other functions.
+// Unlike functions, closures can capture values from the scope in which they’re defined.
+
 use std::collections::HashMap;
 use std::hash::Hash;
 use std::thread;

@@ -34,6 +34,9 @@ fn main() {
 fn read_username_from_file() -> Result<String, io::Error> {
     let f = File::open("hello.txt");
 
+    // All branches of `match` must have the same type. Why `return Err(e)` 
+    // type-checks with `file`?
+    // https://discord.com/channels/442252698964721669/448238009733742612/1012926389529362453
     let mut f = match f {
         Ok(file) => file,
         Err(e) => return Err(e),

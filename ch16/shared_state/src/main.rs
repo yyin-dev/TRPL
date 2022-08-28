@@ -2,7 +2,7 @@ use std::sync::{Arc, Mutex};
 use std::thread;
 
 fn main() {
-    // Mutex is hard for shared-state concurrency is hard, as you must lock and
+    // Mutex is hard as shared-state concurrency is hard, as you must lock and
     // unlock correctly. Rust's type system and ownership rules make it easier.
     {
         let m = Mutex::new(5);

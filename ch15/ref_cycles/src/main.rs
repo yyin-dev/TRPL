@@ -1,44 +1,46 @@
-use crate::List::{Cons, Nil};
 use std::cell::RefCell;
 use std::rc::{Rc, Weak};
 
-#[derive(Debug)]
-enum List {
-    Cons(i32, RefCell<Rc<List>>),
-    Nil,
-}
-
-impl List {
-    fn tail(&self) -> Option<&RefCell<Rc<List>>> {
-        match self {
-            Cons(_, item) => Some(item),
-            Nil => None,
-        }
-    }
-}
-
 fn main() {
-    let a = Rc::new(Cons(5, RefCell::new(Rc::new(Nil))));
+    {
+        #[derive(Debug)]
+        enum List {
+            Cons(i32, RefCell<Rc<List>>),
+            Nil,
+        }
 
-    println!("a initial rc count = {}", Rc::strong_count(&a));
-    println!("a next item = {:?}", a.tail());
+        use List::{Cons, Nil};
 
-    let b = Rc::new(Cons(10, RefCell::new(Rc::clone(&a))));
+        impl List {
+            fn tail(&self) -> Option<&RefCell<Rc<List>>> {
+                match self {
+                    Cons(_, item) => Some(item),
+                    Nil => None,
+                }
+            }
+        }
+        let a = Rc::new(Cons(5, RefCell::new(Rc::new(Nil))));
 
-    println!("a rc count after b creation = {}", Rc::strong_count(&a));
-    println!("b initial rc count = {}", Rc::strong_count(&b));
-    println!("b next item = {:?}", b.tail());
+        println!("a initial rc count = {}", Rc::strong_count(&a));
+        println!("a next item = {:?}", a.tail());
 
-    if let Some(link) = a.tail() {
-        *link.borrow_mut() = Rc::clone(&b);
+        let b = Rc::new(Cons(10, RefCell::new(Rc::clone(&a))));
+
+        println!("a rc count after b creation = {}", Rc::strong_count(&a));
+        println!("b initial rc count = {}", Rc::strong_count(&b));
+        println!("b next item = {:?}", b.tail());
+
+        if let Some(link) = a.tail() {
+            *link.borrow_mut() = Rc::clone(&b);
+        }
+
+        println!("b rc count after changing a = {}", Rc::strong_count(&b));
+        println!("a rc count after changing a = {}", Rc::strong_count(&a));
+
+        // Uncomment the next line to see that we have a cycle;
+        // it will overflow the stack
+        // println!("a next item = {:?}", a.tail());
     }
-
-    println!("b rc count after changing a = {}", Rc::strong_count(&b));
-    println!("a rc count after changing a = {}", Rc::strong_count(&a));
-
-    // Uncomment the next line to see that we have a cycle;
-    // it will overflow the stack
-    // println!("a next item = {:?}", a.tail());
 
     // Rust doesn't catch reference couting cycles. Two ways to avoid this:
     // 1. Write code carefully;
@@ -62,12 +64,13 @@ fn main() {
     #[derive(Debug)]
     struct Node {
         value: i32,
-        children: RefCell<Vec<Rc<Node>>>, // Each node should own its child nodes;
-                                          // We also want to shara the ownership
-                                          // with variables, so that we can
-                                          // access nodes directly, so Rc<Node>.
-                                          // We want to modify the child nodes
-                                          // of each node, so use RefCell.
+        // Each node should own its child nodes;
+        // We also want to share the ownership
+        // with variables, so that we can
+        // access nodes directly, so Rc<Node>.
+        children: RefCell<Vec<Rc<Node>>>,
+
+        // We want to modify the child nodes of each node, so use RefCell.
         // Parent cannot be Rc<T>, otherwise we have reference cycles. A parent
         // should own its children: if a parent is dropped, its children should
         // also be dropped. However, a child node shouldn't own its parent. If
@@ -94,9 +97,7 @@ fn main() {
     // No infinite loop here! Weak<Node> references are printed as (Weak).
     println!("leaf parent = {:?}", leaf.parent.borrow().upgrade());
 
-    
-    
-    // Visualization of reference count 
+    // Visualization of reference count
     let leaf = Rc::new(Node {
         value: 3,
         parent: RefCell::new(Weak::new()),

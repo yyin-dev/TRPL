@@ -11,10 +11,10 @@ fn main() {
     // The Rust compiler has a borrow checker that compares scopes to 
     // determine whether all borrows are valid.
     {
-        let mut r = &6;       // ---------+-- 'a
+        let mut r = &6; // ---------+-- 'a
                               //          |
         {                     //          |
-            let x = 5;        // -+-- 'b  |
+            let x = 5;   // -+-- 'b  |
             // r = &x;        //  |       |
         }                     // -+       |
                               //          |
@@ -58,7 +58,7 @@ fn main() {
     // possible to define structs that hold reference. This requires a lifetime
     // annotation on every reference field.
 
-    // Lifetie elision rules: Rust compiler will try to analyze your program
+    // Lifetime elision rules: Rust compiler will try to analyze your program
     // and infer the lifetime. If your code fits into the pattern that Rust
     // compiler is aware of, you don't have to add lifetime annotations.
 
@@ -92,6 +92,9 @@ fn main() {
 
 // Lifetime annotation in function signature
 fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+    // It's impossible to create a local str and return a reference to it. 
+    // Because the value will be dropped when this function returns.
+
     // Without knowing whether x or y will be returned, we don't know whether
     // the return value will be a valid reference. The borrow checker doesn't 
     // know the relationship between the lifetime of x, y, and return value.

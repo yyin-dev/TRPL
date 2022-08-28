@@ -1,0 +1,21 @@
+References is the simplest pointer in Rust: they point to symbols and borrow 
+the value they point to. They don’t have any special capabilities other than 
+referring to data, and have no overhead.
+
+Smart pointers, on the other hand, are data structures that act like a pointer 
+but also have additional metadata and capabilities. Many times, smart pointers
+also own the data they point to.
+
+Smart pointers are usually implemented using structs. Unlike an ordinary struct, 
+smart pointers implement the Deref and Drop traits. The Deref trait allows an 
+instance of the smart pointer struct to behave like a reference so you can 
+write your code to work with either references or smart pointers. The Drop trait 
+allows you to customize the code that's run when an instance of the smart 
+pointer goes out of scope.
+
+Most common smart pointers:
+- Box<T> for allocating values on the heap
+- Rc<T>, a reference counting type that enables multiple ownership
+- Ref<T> and RefMut<T>, accessed through RefCell<T>, a type that enforces the 
+  borrowing rules at runtime instead of compile time
+

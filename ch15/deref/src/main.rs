@@ -40,9 +40,11 @@ fn main() {
     }
 
     // Deref coercion is a convenience that Rust performs on arguments to 
-    // functions and methods. It works only one types that implement the Deref
-    // trait. Deref corecion converts such a type into a reference to another
-    // type. Example: &String -> &str. 
+    // functions and methods. It works only on types that implement the Deref
+    // trait. Deref coercion converts a reference to a type that implements the 
+    // Deref trait into a reference to another type. I.e. &T -> &U. E.g.
+    // &String -> &str
+    // 
     // This happens automatically when we pass a reference to a particular
     // type's value as an argument to a function/method that doesn't match
     // the parameter type. A sequence of calls to `deref` method converts the 
@@ -56,9 +58,10 @@ fn main() {
     hello(&boxed); // `imple Deref for MyBox` provides &MyBox<String> -> &String;
                    // Standard library provides &String -> &str;
                    // Thus we have &MyBox<String> -> &str.
-    // Deref coersion makes code much cleaner. Rust analyzes th way to use
+    // Deref coersion makes code much cleaner. Rust analyzes the way to use
     // Deref::deref at compile time, so there's no runtime cost.
 
+    // How Deref Coersion works with mutability?
     // You can use `Deref` trait to override the `*` operator on immutable refs;
     // You can use `DerefMut` trait to overide the `*` on mutable refs.
     // Rust does deref coercion when it finds types and trait implementations in three cases:

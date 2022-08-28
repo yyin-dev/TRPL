@@ -1,6 +1,6 @@
 fn main() {
     // Stack and heap
-    // All data on the stack must have fixed size (due to FIFO). Data with
+    // All data on the stack must have fixed size. Data with
     // unknown size at compile time must be stored on the heap.
     // Program exeucutes faster when using stack, compared with using heap.
 
@@ -52,7 +52,7 @@ fn main() {
         // is called to release the memory. Here, if `drop` is called for both
         // `s1` and `s2`, the memory is freed twice - the double free error.
 
-        // Thus, the assignment makes `s1` invalid, and nothing is done when
+        // Thus, the assignment makes `s1` INVALID, and nothing is done when
         // `s1` goes out of scope.
         // This might look like a "shallow copy", as we are only copying the
         // on-stack structure. However, this is NOT a copy, since `s1` is
@@ -96,20 +96,24 @@ fn main() {
     // Return value from a function
     return_value_from_function()
 
-    // In short, the ownership of a variable follows the same pattern every 
-    // time: assigning a value to another variable moves it. When a variable 
-    // that includes data on the heap goes out of scope, the value will be 
-    // cleaned up by `drop` unless the data has been moved to be owned by 
+    // In short, the ownership of a variable follows the same pattern every
+    // time: assigning a value to another variable moves it. When a variable
+    // that includes data on the heap goes out of scope, the value will be
+    // cleaned up by `drop` unless the data has been moved to be owned by
     // another variable.
     // Passing values into a function, or returning values from a function is
     // handled the same way as assigning values.
 
-    // To let a function use a value without taking ownership, we have to 
-    // make the function return the value. This can be inconvenient. 
+    // To let a function use a value without taking ownership, we have to
+    // make the function return the value. This can be inconvenient.
     // Let's see references and borrowing as a solution.
 }
 
 fn pass_value_to_function() {
+    // Passing a value to a function is similar to assigning a value to a variable.
+    // Passing a value to a function will either move or copy, just as 
+    // assignment does.
+
     let s = String::from("hello"); // s comes into scope
     takes_ownership(s); // s's value moves into the function...
                         // ... and so is no longer valid here
@@ -118,7 +122,6 @@ fn pass_value_to_function() {
     makes_copy(x); // x would move into the function,
                    // but i32 is Copy, so it’s okay to still
                    // use x afterward
-    
 } // Here, x goes out of scope, then s. But because s's value was moved, nothing
   // special happens.
 
@@ -161,5 +164,5 @@ fn gives_ownership() -> String {
 fn takes_and_gives_back(a_string: String) -> String {
     // a_string comes into scope
 
-    a_string // a_string is returned and moves out to the calling function
+    a_string // a_string is returned and moves out to the caller
 }

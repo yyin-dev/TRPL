@@ -68,10 +68,10 @@ fn main() {
         let tx1 = tx.clone();
         thread::spawn(move || {
             let vals = vec![
-                String::from("hi"),
-                String::from("from"),
-                String::from("the"),
-                String::from("thread"),
+                String::from("_hi"),
+                String::from("_from"),
+                String::from("_the"),
+                String::from("_thread"),
             ];
 
             for val in vals {

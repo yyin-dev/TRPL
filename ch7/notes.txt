@@ -1,0 +1,4 @@
+- Packages and crates
+Crates (binary/library). A package is a bundle of one of more crates. A package can
+contain at most one library crate and any number of binary crates. A package must
+contain at least one crate, whether that's a library or binary crate.

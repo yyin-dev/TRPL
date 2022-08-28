@@ -14,7 +14,7 @@ use std::rc::Rc;
 // reference or any number of immutable references;
 // - References must always be valid.
 // With RefCell<T>, these invariants are enforced at runtime. With
-// references, if you break the rule, you get compile eroor. With
+// references, if you break the rule, you get compile error. With
 // RefCell<T>, if you break the rule, your program will panic.
 
 // The advantage of compile-time borrow check is to catch errors early
@@ -39,6 +39,7 @@ use std::rc::Rc;
 // - Because RefCell<T> allows mutable borrows checked at runtime,
 // you can mutate the value inside the RefCell<T> even when the RefCell<T>
 // is immutable.
+// Mutating the value inside an immutable value is the interior mutability pattern. 
 
 // Context: we want to test method LimitTracker::set_value. Thus, we need
 // a "mock object" that implements Messenger trait.
@@ -122,11 +123,13 @@ mod tests {
     // Methods `borrow` and `borrow_mut` are part of the safe API of RefCell<T>.
     // The `borrow` methods return a Ref<T>, and `borrow_mut` returns a 
     // RefMut<T>. Both types implement Deref.
+    // Think of `borrow` as `&` and `borrow_mut` as `mut &`.
+    // 
     // At runtime, the RefCell<T> keeps track of how many Ref<T> and RefMut<T>
     // smart pointers are currently active. When `borrow` is called, the
     // RefCell<T> increments its count on immutable borrows; When a Ref<T> value
     // goes out of scope, the count of immutable borrows goes down by one. Just
-    // liek compile-time borrowing rules, RefCell<T> allows having many
+    // like compile-time borrowing rules, RefCell<T> allows having many
     // immutable borrows or one mutable borrow at any time.
     // If the rule is violated, the program will panic. 
     // Two implications of catching borrowing errors at runtime: 
@@ -154,14 +157,17 @@ fn main() {
     let b = Cons(Rc::new(RefCell::new(3)), Rc::clone(&a));
     let c = Cons(Rc::new(RefCell::new(4)), Rc::clone(&a));
 
-
     // 3 -+
     //    v
-    //    5 -> 6
+    //    5
     //    ^
     // 4 -+
 
+    let x = value.borrow();
+
     *value.borrow_mut() += 10;
+
+    println!("x = {}", *x); // runtime error
 
     println!("suffix after = {:?}", value);
     println!("b after = {:?}", b);

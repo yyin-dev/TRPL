@@ -5,7 +5,11 @@ struct Rectangle {
 }
 
 impl Rectangle {
-    // Methods are defined within the context of a struct (or an enum or a 
+    fn new(width: u32, height: u32) -> Self {
+        Rectangle { width, height }
+    }
+
+    // Methods are defined within the context of a struct (or an enum or a
     // trait object), and the 1st parameter is always `self`.
     // Methods can:
     // 1. Take the ownership of self;
@@ -23,17 +27,21 @@ impl Rectangle {
 
     // associated functions: associated with the struct (but not an instacne).
     // They are not methods. You call them using `::` syntax.
-    
+
+    fn can_hold(&self, other: &Self) -> bool  {
+        self.width >= other.width && self.height >= other.height
+    }
 }
 
 fn main() {
-    let rect1 = Rectangle {
-        width: 30,
-        height: 50,
-    };
+    let rect1 = Rectangle::new(30, 40);
 
     println!(
         "The area of the rectangle is {} square pixels.",
         rect1.area()
     );
+
+    let rect2 = Rectangle::new(30, 45);
+
+    println!("Can {:?} hold {:?}? {}", rect1, rect2, rect1.can_hold(&rect2));
 }

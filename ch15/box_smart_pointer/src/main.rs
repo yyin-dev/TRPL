@@ -5,10 +5,10 @@ fn main() {
         let b = Box::new(5);
         println!("b = {}", b);
     } // When b goes out of scope, both the box (on the stack) and the data
-    // it points to (on the heap) are deallocated.
+      // it points to (on the heap) are deallocated.
 
-    // Rust needs to know the size of each type at compile time. The type of 
-    // a recursive type cannot be determined at compile time. 
+    // Rust needs to know the size of each type at compile time. The type of
+    // a recursive type cannot be determined at compile time.
     // This is not allowed:
     // enum List {
     //     Cons(i32, List),
@@ -30,5 +30,5 @@ fn main() {
 
     // Box<T> is a smart pointer because it implements the Deref trait, which
     // allows Box<T> to be treated as references. And also the `Drop` trait.
-    // We explore them now.
+    // We explore them now. See deref/ and drop/.
 }

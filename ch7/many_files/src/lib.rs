@@ -2,7 +2,7 @@
 // the module from another file with the SAME NAME as the module.
 // ATTENTION: when you move a module into a file, you should only move the
 // BODY of the mod definition. Think about it this way: the file name is
-// implicitly the module name. 
+// implicitly the module name.
 // See body_only.rs and entire.rs for example.
 // To use a module in another file, use `mod module_name;` to bring it into
 // file, and then do `use module_name::xxx`.
@@ -12,11 +12,10 @@ use body_only::foo;
 mod entire;
 use entire::entire::bar;
 
-
 // The same works with directory.
 // In front_of_house.rs, it brings hosting into scope `pub mod hosting` and
 // exposes it as public;
-mod front_of_house; 
+mod front_of_house;
 
 mod back_of_house {
     fn fix_incorrect_order() {

@@ -1,16 +1,16 @@
+use std::env;
 use std::error::Error;
 use std::fs;
-use std::env;
 
 pub struct Config {
-    pub query: String, 
+    pub query: String,
     pub filename: String,
     pub case_sensitive: bool,
 }
 
 impl Config {
     pub fn new(mut args: env::Args) -> Result<Config, &'static str> {
-        // Returning Result, instead of panicking, allows `main` to handle 
+        // Returning Result, instead of panicking, allows `main` to handle
         // the Result, and exit the process more cleanly
         args.next();
 
@@ -34,7 +34,7 @@ impl Config {
     }
 }
 
-pub fn run(config : Config) -> Result<(), Box<dyn Error>> {
+pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     // Box<dyn Error> is a trait object, which means that the type will
     // implement the Error trait, but not specified to be any particular type.
     let contents = fs::read_to_string(config.filename)?;
@@ -52,14 +52,14 @@ pub fn run(config : Config) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-pub fn search<'a>(query: & str, contents: &'a str) -> Vec<&'a str> {
+pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     // The lifetime indicates that the returned vectro should contain string
     // slices that reference slices of the argument `contents`, not `query`.
-    
+
     // let mut results = Vec::new();
     // for line in contents.lines() {
     //     if line.contains(query) {
-    //         results.push(line)            
+    //         results.push(line)
     //     }
     // }
     // results
@@ -70,13 +70,13 @@ pub fn search<'a>(query: & str, contents: &'a str) -> Vec<&'a str> {
         .collect()
 }
 
-pub fn search_case_insensitive<'a>(query: & str, contents: &'a str) -> Vec<&'a str> {
-    let query = query.to_lowercase();   
+pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    let query = query.to_lowercase();
 
     // let mut results = Vec::new();
     // for line in contents.lines() {
     //     if line.to_lowercase().contains(&query) {
-    //         results.push(line)            
+    //         results.push(line)
     //     }
     // }
     // results

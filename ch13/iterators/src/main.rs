@@ -24,15 +24,16 @@ impl Iterator for Counter {
 }
 
 fn main() {
-    pub trait Iterator {
-        // `type Item` defines an associated type with the trait. This means
-        // that `Item` will be the return type from the iterator.
-        type Item;
+    // `Iterator` trait defined in the standrad library.
+    // pub trait Iterator {
+    //     // `type Item` defines an associated type with the trait. This means
+    //     // that `Item` will be the return type from the iterator.
+    //     type Item;
 
-        fn next(&mut self) -> Option<Self::Item>;
+    //     fn next(&mut self) -> Option<Self::Item>;
 
-        // methods with default implementations elided
-    }
+    //     // methods with default implementations elided
+    // }
     
     // Rust compiler optimizes iterator very well: zero-cost abstraction.
     // "clearly express high-level ideas at low-level performance"

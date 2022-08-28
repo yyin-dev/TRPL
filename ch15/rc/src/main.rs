@@ -1,6 +1,6 @@
 fn main() {
     // Sometimes, a value should have multiple owners. Example: in graph data
-    // structures, one node may be pointed to multiple nodes. The node should
+    // structures, one node may be pointed to by multiple nodes. The node should
     // not be cleaned up until there's no edge pointing to it.
     // Rc<T> is a reference couting smart pointer. The value is cleaned up
     // only when there's no reference to it any more.
