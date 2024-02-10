@@ -1,7 +1,7 @@
 use std::fs::File;
 use std::io;
-use std::io::Read;
 use std::io::ErrorKind;
+use std::io::Read;
 
 fn main() {
     // enum Result<T, E> {
@@ -21,10 +21,10 @@ fn main() {
             }
         },
     };
-    
+
     // Shortcuts for panic on error
     // - unwrap(): if the Result value is Ok, return the value inside Ok; if the
-    // Result is Err, call panic!()    
+    // Result is Err, call panic!()
     // - expect(): similar to unwrap(), but allow you to specify panic message
 
     // Propagating Errors
@@ -34,9 +34,9 @@ fn main() {
 fn read_username_from_file() -> Result<String, io::Error> {
     let f = File::open("hello.txt");
 
-    // All branches of `match` must have the same type. Why `return Err(e)` 
+    // All branches of `match` must have the same type. Why `return Err(e)`
     // type-checks with `file`?
-    // https://discord.com/channels/442252698964721669/448238009733742612/1012926389529362453
+    // The `return` here early-returns from the function (not this match statement)!
     let mut f = match f {
         Ok(file) => file,
         Err(e) => return Err(e),
@@ -54,7 +54,7 @@ fn read_username_from_file_short() -> Result<String, io::Error> {
     // ? placed after a Result is defined to work the same way as above `match`:
     // If the value of Result is Ok, then the value inside Ok is returned from
     // the expression; if the value is Err, the Err will be returned from the
-    // whole function. 
+    // whole function.
     // ? can only be used in functions that return Result or Option
     let mut f = File::open("hello.txt")?;
     let mut s = String::new();
